@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TinyMce Demo</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="plugin/layui/css/layui.css">
+</head>
+<body>
+	<div class="layui-cow layui-col-md6 layui-col-md-offset1" style="margin-top: 20px">
+		<fieldset class="layui-elem-field layui-field-title site-title">
+			<legend><a name="attr">tinymce 使用</a></legend>
+		</fieldset>
+		<form class="layui-form layui-form-pane">
+			<div class="layui-form-item">
+				<label class="layui-form-label">文本域</label>
+				<div class="layui-input-block">
+					<textarea name="desc" id="contentArea" cols="30" rows="10" class="layui-textarea"></textarea>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-inline">
+					<button class="layui-btn" lay-submit lay-filter="tinymceDemo">立即提交</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<script type="text/javascript" src="plugin/layui/layui.all.js"></script>
+	<script type="text/javascript">
+		layui.extend({
+			tinymce:'{/}./plugin/layui/extend/tinymce/tinymce'
+		}).use(['tinymce','form'],function(){
+			var form = layui.form,
+			tinymce = layui.tinymce;
+
+			var contentArea = tinymce.render({
+				elem:"#contentArea"
+				,height:600
+				,width:'100%'
+			})
+			
+			//监听提交
+			form.on('submit(tinymceDemo)',function(data){
+				var content = contentArea.getContent();
+                var words = contentArea.plugins.wordcount.getCount();
+                layer.open({
+					type: 1,
+					title: '文本域内容',
+					area: '400px;',
+					shade: 0,
+					content: '<div style="padding: 20px 20px;">'+ content +'</div>'
+				});
+				layer.open({
+					type: 1,
+					title: '文本域字数',
+					shade: 0,
+					content: '<div style="padding: 20px 100px;">'+ words +'</div>' 
+				});
+				return false;
+			})
+		});
+	</script>
+</body>
+</html>
