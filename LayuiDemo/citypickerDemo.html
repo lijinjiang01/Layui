@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Citypicker Demo</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="plugin/layui/css/layui.css">
+	<script src="plugin/layui/extend/city-picker/city-picker.data.js"></script>
+	<link rel="stylesheet" type="text/css" href="plugin/layui/extend/city-picker/city-picker.css">
+</head>
+<body>
+	<div class="layui-cow layui-col-md6 layui-col-md-offset1" style="margin-top: 20px">
+		<fieldset class="layui-elem-field layui-field-title site-title">
+			<legend><a name="attr">Citypicker 使用</a></legend>
+		</fieldset>
+		<form class="layui-form layui-form-pane">
+			<div class="layui-form-item layui-col-md8">
+				<label class="layui-form-label">地址：</label>
+				<div class="layui-input-block">
+					<input type="text" autocomplete="on" class="layui-input" id="address" name="city-picker" readonly="readonly" data-toggle="city-picker" placeholder="请选择">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-inline">
+					<button class="layui-btn" lay-submit lay-filter="citypickerDemo">立即提交</button>
+					<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<script type="text/javascript" src="plugin/layui/layui.all.js"></script>
+	<script type="text/javascript">
+		layui.extend({
+			citypicker:'{/}./plugin/layui/extend/city-picker/city-picker'
+		}).use(['jquery','citypicker','form'],function(){
+			var $ = layui.$,
+			form = layui.form,
+			citypicker = layui.citypicker;
+
+			var cityPicker = new citypicker("#address",{
+				provincename:"provinceId",
+                cityname:"cityId",
+                districtname: "districtId",
+                level: 'districtId',// 级别
+			})
+			
+			//监听提交
+			form.on('submit(citypickerDemo)',function(data){
+				var address = $("#address").val();
+				layer.open({
+					type: 1,
+					title: '地址信息',
+					area: '400px;',
+					shade: 0,
+					content: '<div style="padding: 20px 20px;">'+ address +'</div>'
+				});
+				return false;
+			})
+		});
+	</script>
+</body>
+</html>
